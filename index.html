@@ -7,8 +7,8 @@
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
   :root{
-    --bg:#0f1115; --panel:#161922; --line:#262b36; --text:#e6e9ef;
-    --muted:#8b93a7; --accent:#7aa2f7; --accent-soft:#1d2433; --code:#1b1f2a;
+    --bg:#ffffff; --panel:#f7f8fa; --line:#e4e7ec; --text:#1a1d23;
+    --muted:#6b7280; --accent:#2563eb; --accent-soft:#eaf0ff; --code:#f2f4f7;
   }
   *{box-sizing:border-box}
   html,body{margin:0;height:100%}
@@ -21,12 +21,12 @@
   .side h1{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
     margin:0;padding:18px 18px 10px}
   .search{margin:0 14px 12px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;
-    background:#0e1017;color:var(--text);font-size:14px;outline:none}
+    background:#fff;color:var(--text);font-size:14px;outline:none}
   .search:focus{border-color:var(--accent)}
   .list{overflow:auto;padding:0 10px 18px;flex:1}
   .item{display:block;width:100%;text-align:left;cursor:pointer;border:0;background:transparent;
     color:inherit;padding:11px 12px;border-radius:10px;margin-bottom:2px}
-  .item:hover{background:#1b1f2a}
+  .item:hover{background:#eef1f6}
   .item.active{background:var(--accent-soft)}
   .item .theme{font-weight:600;font-size:15px;text-transform:capitalize;line-height:1.35}
   .item .meta{color:var(--muted);font-size:12.5px;margin-top:3px}
@@ -37,17 +37,17 @@
   .doc h1{font-size:30px;line-height:1.25;margin:.2em 0 .1em}
   .doc h2{font-size:22px;margin:1.8em 0 .5em;padding-bottom:.3em;border-bottom:1px solid var(--line)}
   .doc h3{font-size:18px;margin:1.6em 0 .4em;color:var(--accent)}
-  .doc p,.doc li{color:#d3d8e3}
+  .doc p,.doc li{color:#374151}
   .doc a{color:var(--accent)}
-  .doc strong{color:#fff}
-  .doc em{color:#c6cde0}
+  .doc strong{color:#0b0d10}
+  .doc em{color:#374151}
   .doc blockquote{border-left:3px solid var(--accent);margin:1em 0;padding:.2em 1em;color:var(--muted)}
   .doc code{background:var(--code);padding:.12em .4em;border-radius:5px;font-size:.88em}
   .doc pre{background:var(--code);padding:14px 16px;border-radius:10px;overflow:auto}
   .doc pre code{background:none;padding:0}
   .doc table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14.5px}
   .doc th,.doc td{border:1px solid var(--line);padding:7px 11px;text-align:left}
-  .doc th{background:#11141c}
+  .doc th{background:#f3f4f6}
   .doc hr{border:0;border-top:1px solid var(--line);margin:2em 0}
   .empty{color:var(--muted);padding:60px 32px;max-width:760px;margin:0 auto}
   @media (max-width:760px){
