@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Podcast Digests</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#161922; --line:#262b36; --text:#e6e9ef;
+    --muted:#8b93a7; --accent:#7aa2f7; --accent-soft:#1d2433; --code:#1b1f2a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--bg);color:var(--text);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  .app{display:flex;height:100vh;overflow:hidden}
+  /* sidebar */
+  .side{width:340px;flex:none;background:var(--panel);border-right:1px solid var(--line);
+    display:flex;flex-direction:column}
+  .side h1{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+    margin:0;padding:18px 18px 10px}
+  .search{margin:0 14px 12px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;
+    background:#0e1017;color:var(--text);font-size:14px;outline:none}
+  .search:focus{border-color:var(--accent)}
+  .list{overflow:auto;padding:0 10px 18px;flex:1}
+  .item{display:block;width:100%;text-align:left;cursor:pointer;border:0;background:transparent;
+    color:inherit;padding:11px 12px;border-radius:10px;margin-bottom:2px}
+  .item:hover{background:#1b1f2a}
+  .item.active{background:var(--accent-soft)}
+  .item .theme{font-weight:600;font-size:15px;text-transform:capitalize;line-height:1.35}
+  .item .meta{color:var(--muted);font-size:12.5px;margin-top:3px}
+  .item.active .theme{color:var(--accent)}
+  /* reading pane */
+  .main{flex:1;overflow:auto}
+  .doc{max-width:760px;margin:0 auto;padding:54px 32px 120px}
+  .doc h1{font-size:30px;line-height:1.25;margin:.2em 0 .1em}
+  .doc h2{font-size:22px;margin:1.8em 0 .5em;padding-bottom:.3em;border-bottom:1px solid var(--line)}
+  .doc h3{font-size:18px;margin:1.6em 0 .4em;color:var(--accent)}
+  .doc p,.doc li{color:#d3d8e3}
+  .doc a{color:var(--accent)}
+  .doc strong{color:#fff}
+  .doc em{color:#c6cde0}
+  .doc blockquote{border-left:3px solid var(--accent);margin:1em 0;padding:.2em 1em;color:var(--muted)}
+  .doc code{background:var(--code);padding:.12em .4em;border-radius:5px;font-size:.88em}
+  .doc pre{background:var(--code);padding:14px 16px;border-radius:10px;overflow:auto}
+  .doc pre code{background:none;padding:0}
+  .doc table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14.5px}
+  .doc th,.doc td{border:1px solid var(--line);padding:7px 11px;text-align:left}
+  .doc th{background:#11141c}
+  .doc hr{border:0;border-top:1px solid var(--line);margin:2em 0}
+  .empty{color:var(--muted);padding:60px 32px;max-width:760px;margin:0 auto}
+  @media (max-width:760px){
+    .app{flex-direction:column;height:auto;min-height:100vh}
+    .side{width:100%;max-height:42vh;border-right:0;border-bottom:1px solid var(--line)}
+    .doc{padding:30px 20px 90px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <h1>Podcast Digests</h1>
+    <input class="search" id="q" placeholder="Search title or show…" autocomplete="off">
+    <div class="list" id="list"></div>
+  </aside>
+  <main class="main"><div id="doc" class="doc"></div></main>
+</div>
+<script id="digest-data" type="application/json">
+[
+  {
+    "date": "2026-06-29",
+    "show": "how i ai",
+    "theme": "evals and defining the what",
+    "md": "# Learning Digest — 2026-06-29\n\n_Episode: How I AI — Ankur Goyal (Braintrust CEO), \"coding agents for hard infra work + demystifying evals\"_ · _Read time: ~9 min_\n\n## How I AI — Ankur Goyal (Braintrust)\n**Theme:** When a model can write code competently, the scarce skill shifts from *authoring solutions* to *specifying the target precisely and verifying it rigorously* — which reframes both deep systems work and AI-product development as the single discipline of building feedback loops.\n\n---\n\n### A hard eval is the unit that makes background autonomy safe and productive\n**Said.** _\"If you create the right tests and success criteria for a model, then it can be really creative and it can work on this stuff in the background.\"_\n\n**First principles.** Autonomous search is only as good as its objective function. An agent exploring a solution space is running an optimizer — and an optimizer with a sharp, cheap-to-evaluate, hard-to-game objective converges on real improvement, while one with a vague or gameable objective wanders or overfits. What unlocks the \"creativity\" is an **asymmetry of effort**: specifying *what good looks like* is far cheaper than searching over *how to achieve it*, and once the verifier is automated, the search can run arbitrarily long without spending human attention. It's the same structure that makes problems tractable when verification is cheap even though generation is expensive — **value accrues to whoever owns the verifier.** Generalises to any domain where the test can be mechanized (compilers, benchmarks, property tests, simulators): the test, not the solution, is the durable asset.\n\n**Practically.** Before handing open-ended work to an autonomous process, ask: *can I write a cheap, faithful, hard-to-cheat check of success?* If yes, you can let it run far harder and longer than any human would. If no, autonomy produces confident garbage. Build the verifier first, the solver second.\n\n### Practical quality beats theoretical quality, because attention decays and rigor is unbounded\n**Said.** _\"There's no staff engineer who is running as many rigorous benchmarks and trying out different algorithms… than someone who's using an agent.\"_\n\n**First principles.** The steelman for \"humans do hard things better\" assumes an idealized human with perfect, inexhaustible attention. That assumption is the load-bearing one, and it's false in practice: human rigor is bounded by sleep, by context-decay across days, and by a steep aversion to tedious-but-necessary work (benchmarking the *slow* path, not just the fast one). The real production failure mode of expert engineering isn't bad reasoning — it's **skipped verification**: you benchmark the two cases reviewers will catch and bluff the rest. An agent drops the marginal cost of the boring check to ~zero, so the binding constraint moves from \"can a human be bothered\" to \"is the check even specified.\" The generalisation: when quality is gated by tedious-but-automatable verification, the right comparison isn't *peak human skill vs. machine skill* — it's *exhaustive cheap rigor vs. selective expensive rigor*, and exhaustive wins on the long tail.\n\n**Practically.** Separate \"theoretical best case\" from \"what actually ships.\" Where quality is lost to skipped checks rather than missing insight, the gain from automation is coverage and consistency, not cleverness. Audit where your *own* rigor quietly stops — the benchmarks you \"didn't get to\" — because that gap is the opportunity.\n\n### Programming as \"defining the *what*\" — the same shift, applied recursively\n**Said.** _\"Machine learning… shifts the task of programming from being about the how to being about the what.\"_\n\n**First principles.** ML, evals, and agent-coding are all the *same move*: stop dictating the procedure; specify the objective plus a substrate that searches for the procedure. Linear regression already did it (you supply points and a loss; slope/intercept are *found*, not written). Transformers generalize it (objective = next-token prediction; the \"how\" is whatever the GPUs discover). Evals apply it to product behavior; agentic coding applies it to implementation. The deep point: **\"the what\" is itself a ladder of abstraction levels**, and each new tool lets you climb one rung higher — from writing the algorithm, to specifying success criteria, to specifying the criteria *for the criteria*. It pays off because stating a constraint succinctly is usually exponentially cheaper than satisfying it, so leverage flows to whoever can compress the problem into the tightest faithful objective. A working definition of expertise in this regime: knowing *what* to demand and *how to check it* — not *how* to build it.\n\n**Practically.** On any problem, split the layer where your judgment is irreplaceable (defining and verifying the target) from the layer that can be searched (the implementation). Push your effort *up* the abstraction ladder until you're only spending it on what a search process genuinely can't supply.\n\n### Bloom filters: a \"wrong-on-the-cheap-side\" data structure\n**Said.** _\"Bloom filters kind of have a bad reputation, but they worked out to be very effective in this case\"_ — found after a week of continuous index experiments.\n\n**First principles.** A Bloom filter is a small bit-array plus *k* hash functions: to insert, set the *k* bits each hash points to; to test membership, check whether all *k* are set. Its power is a deliberate **one-sided error** — it can say \"definitely not present\" with certainty, but \"possibly present\" only probabilistically (never a false negative, sometimes a false positive). That asymmetry is exactly what the needle-in-billions query needs: cheaply eliminate the vast majority of blocks that *cannot* contain the match, and pay the expensive exact lookup only on the survivors. The mechanism generalises to a whole class of **approximate pre-filters**: trade a bounded, controllable error *in the harmless direction* for an enormous reduction in expensive work. Its \"bad reputation\" comes from judging it on standalone accuracy rather than on its role as a cheap front-line gate before an exact check — context, not the structure, decides whether it's good.\n\n**Practically.** When an exact operation is expensive and most inputs don't qualify, look for a cheap probabilistic pre-filter whose errors fall only on the safe side (false positives you'll re-check, never false negatives you'd miss). Evaluate such components by their *role in the pipeline*, not by isolated accuracy — a \"low-quality\" part can be the right one in the right slot.\n\n### The column-store / execution-engine matrix, and the EC2↔S3 latency wall\n**Said.** Exhaustively _\"trying every open source column store format… and every column store execution engine… computing the matrix,\"_ and testing _\"4,000 concurrent reads\"_ of real EC2↔S3 latency.\n\n**First principles.** Two independent things are being separated. (1) **Storage format** (column-store) lays data out by column rather than by row, so an analytical query touching a few attributes over billions of records reads only those columns' contiguous bytes — and homogeneous columns compress far better, slashing I/O, the true bottleneck. (2) **Execution engine** is the orthogonal question of *how* the scan/filter/aggregate runs over that layout (vectorized batches, predicate pushdown, etc.). Because they're independent axes, the right move is a Cartesian sweep — the \"matrix\" — since the best pairing isn't deducible a priori. The deeper constraint is physical: with data in object storage (S3) and compute in EC2, performance is governed not by CPU but by **how many concurrent reads you can issue and overlap against network round-trip latency**. The whole problem becomes latency-hiding: keep enough requests in flight that latency is amortized. Generalises to any disaggregated storage-compute system, where the binding limit moves from local cycles to network parallelism.\n\n**Practically.** For scan-heavy/analytical workloads, treat data layout and execution strategy as separate, independently-tunable axes — and *sweep* the combinations rather than assuming the best one. Wherever storage and compute are physically separated, reason about throughput as **concurrency × per-request latency**: the lever is how many reads you keep in flight and interleave, not raw compute.\n\n### Carving, not constructing — and why a complaint usually means *delete*\n**Said.** _\"Product building and code writing now looks like carving rather than constructing… 90% of the time someone complains, we remove the thing.\"_\n\n**First principles.** When the marginal cost of producing features collapses toward zero, the scarce resource flips from *creation* to *subtraction*. Construction assumes each addition is expensive, so you add deliberately; carving assumes material is nearly free, so the work is removing excess to reveal a coherent whole. Why a complaint usually means *delete*: a complaint is evidence that some piece of complexity created confusion, and once you understand the user's actual point of view you can often redesign so the **underlying complexity never needs to exist** — removing the cause beats patching the symptom (their command-F example: a powerful cross-span search *was* the confusion; simplifying it was the fix). This is a law of cheap-generation regimes: as production cost falls, feature-bloat/entropy becomes the *default* failure mode, and editorial judgment — what to remove — becomes the differentiator. CI plays the dual role: it's the verifier that *earns the right to move fast* — the same \"build the check first\" logic applied to shipping.\n\n**Practically.** Wherever output is cheap to generate, assume the default failure is excess, and treat deletion/simplification as primary work, not cleanup. Read a complaint as a signal to *remove* confusing complexity, not to add an explanatory feature. And gate speed behind your verification layer — when you feel slow, the fix is often improving the check (CI/tests), which then lets everything else move faster.\n\n## New concepts (learned today)\n- **Bloom filter** — compact bit-array + *k* hash functions giving probabilistic set membership with one-sided error: \"definitely not in set\" is certain, \"possibly in set\" can be a false positive, never a false negative. Used as a cheap pre-filter to skip expensive exact lookups on data that provably can't match.\n- **Column store (vs row store)** — storage layout grouping values by column instead of by row, so analytical queries read only the needed columns (and compress them well, cutting I/O). Orthogonal to the *execution engine* that scans/filters/aggregates over the layout.\n- **Disaggregated storage-compute (EC2↔S3 pattern)** — architecture where data lives in object storage and compute is separate, so query performance is bound by network concurrency/latency (how many reads you can issue and interleave), not local CPU.\n- **The \"agent line\"** — a mental threshold: any decision where handing the same information to an agent would yield the same result sits *below the line* and should be delegated; the line rises as you build better skills/integrations, freeing attention for what's above it.\n- **Carving vs constructing** — in cheap-generation regimes, building shifts from deliberate addition (each feature costly) to subtraction (removing excess from near-free material); editorial deletion becomes the scarce skill.\n\n## Connections\n- **\"Hard eval makes autonomy safe\"** and **\"CI earns the right to move fast\"** are the *same mechanism* — build the verifier first — applied to AI products vs. software shipping. Both are the engineering twin of the ledger's **Eval-as-PRD**.\n- **\"Programming as defining the *what*\"** is the parent abstraction that **Eval-as-PRD** and **LLM-as-judge** (both in the ledger) are concrete instances of: specify the *what* + a substrate that searches the *how*.\n- The **\"David loop\"** (ledger) recurs with new depth on *why* it scales the expert rather than replacing them: the quantitative evals act as a cheap pre-filter (Bloom-filter-like) so the scarce tastemaker is spent only on the survivors — applying his palette to *more* cases, not fewer.\n\n## Left out\nOnly true filler: the no-meetings-after-noon / maker-vs-manager riff (motivational, no transferable mechanic past \"make focus time\"), the TMUX/Portless/work-tree tooling logistics (un-generalisable tool name-dropping), the laptop-at-dinner anecdote, and sponsor reads. **Kept** the column-store / Bloom-filter / EC2↔S3 systems material in full despite it being \"non-actionable\" — that depth is the point now."
+  }
+]</script>
+<script>
+  const DIGESTS = JSON.parse(document.getElementById('digest-data').textContent);
+  const listEl = document.getElementById('list');
+  const docEl  = document.getElementById('doc');
+  const qEl    = document.getElementById('q');
+  let active = -1;
+
+  function render(i){
+    active = i; const d = DIGESTS[i];
+    docEl.innerHTML = d ? marked.parse(d.md) : '';
+    [...listEl.children].forEach((c,idx)=>c.classList.toggle('active', idx===i));
+    document.querySelector('.main').scrollTop = 0;
+  }
+
+  function buildList(filter){
+    listEl.innerHTML='';
+    const f=(filter||'').toLowerCase();
+    DIGESTS.forEach((d,i)=>{
+      const hay=(d.theme+' '+d.show).toLowerCase();
+      if(f && !hay.includes(f)) return;
+      const b=document.createElement('button');
+      b.className='item'+(i===active?' active':'');
+      b.innerHTML='<div class="theme">'+d.theme+'</div><div class="meta">'+d.show+' · '+d.date+'</div>';
+      b.onclick=()=>render(i);
+      listEl.appendChild(b);
+    });
+  }
+
+  qEl.addEventListener('input', e=>buildList(e.target.value));
+  if(DIGESTS.length){ buildList(''); render(0); }
+  else { docEl.className='empty'; docEl.textContent='No digests yet. Run /digest to create one.'; }
+</script>
+</body>
+</html>
